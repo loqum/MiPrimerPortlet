@@ -94,9 +94,24 @@ public class Portlet1Portlet extends MVCPortlet {
 		FACTURAS.add(facturaNueva);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update(ActionRequest actionRequest, ActionResponse actionResponse)
 			throws IOException, PortletException {
+		String num = actionRequest.getParameter("num").replaceAll(" ", "");
+		String cliente = actionRequest.getParameter("cliente").replaceAll(" ", "");
+		String importe = actionRequest.getParameter("importe").replaceAll(" ", "");
 		
+		this.FACTURAS = (Vector<Hashtable<String, String>>) FACTURAS.stream().map(factura -> {
+			if (factura.get("num").equals(num)) {
+				Hashtable<String, String> facturaNueva = new Hashtable<>();
+				facturaNueva.put("num", num);
+				facturaNueva.put("cliente", cliente);
+				facturaNueva.put("importe", importe);
+				return facturaNueva;
+			} else {
+				return factura;
+			}
+		});
 	}
 
 	@SuppressWarnings("deprecation")
